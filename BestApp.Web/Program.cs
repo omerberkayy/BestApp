@@ -2,6 +2,8 @@ using Microsoft.EntityFrameworkCore;
 using BestApp.Data;
 using BestApp.Data.Repositories;
 using BestApp.Core.Repositories;
+using BestApp.Core.Services;
+using BestApp.Service.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +15,10 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
     builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+// Service Kayıtları
+builder.Services.AddScoped(typeof(IService<>), typeof(Service<>));
+builder.Services.AddScoped<IProjectService, ProjectService>();
 
 var app = builder.Build();
 
