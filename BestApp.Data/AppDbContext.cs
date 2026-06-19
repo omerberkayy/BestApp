@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
-using PeyzajApp.Core.Entities;
+using BestApp.Core.Entities;
 
-namespace PeyzajApp.Data;
+namespace BestApp.Data;
 
 public class AppDbContext : DbContext
 {

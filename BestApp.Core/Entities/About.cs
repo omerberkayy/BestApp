@@ -1,4 +1,4 @@
-namespace PeyzajApp.Core.Entities;
+namespace BestApp.Core.Entities;
 
 public class About
 {
