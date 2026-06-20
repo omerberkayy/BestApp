@@ -6,5 +6,5 @@ namespace BestApp.Core.Services;
 public interface IProjectService : IService<Project>
 {
     // Sadece aktif (yayında olan) peyzaj projelerini getirecek özel metot
-    Task<IEnumerable<Project>> GetActiveApplicationsAsync();
+    Task<IEnumerable<Project>> GetActiveProjectsAsync();
 }

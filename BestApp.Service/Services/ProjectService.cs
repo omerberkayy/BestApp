@@ -14,7 +14,7 @@ public class ProjectService : Service<Project>, IProjectService
         _repository = repository;
     }
 
-    public async Task<IEnumerable<Project>> GetActiveApplicationsAsync()
+    public async Task<IEnumerable<Project>> GetActiveProjectsAsync()
     {
         // İş kuralı: IsActive özelliği true olanları getir
         return await _repository.GetWhereAsync(x => x.IsActive == true);
