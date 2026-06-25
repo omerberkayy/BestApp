@@ -8,12 +8,12 @@ namespace BestApp.Web.Areas.Admin.Controllers;
 // Bu Controller'ın Admin bölgesine ait olduğunu belirtmek ZORUNLUDUR
 [Area("Admin")] 
 [Authorize]
-public class ApplicationController : Controller
+public class ProjectController : Controller
 {
     private readonly IProjectService _projectService;
     private readonly IWebHostEnvironment _webHostEnvironment; // Resim yükleme dizinini bulmak için
 
-    public ApplicationController(IProjectService projectService, IWebHostEnvironment webHostEnvironment)
+    public ProjectController(IProjectService projectService, IWebHostEnvironment webHostEnvironment)
     {
         _projectService = projectService;
         _webHostEnvironment = webHostEnvironment;
