@@ -13,6 +13,7 @@ public class AppDbContext : DbContext
     public DbSet<Service> Services { get; set; } = null!;
     public DbSet<About> Abouts { get; set; } = null!;
     public DbSet<ContactMessage> ContactMessages { get; set; } = null!;
+    public DbSet<AppUser> AppUsers { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

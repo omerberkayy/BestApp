@@ -1,11 +1,13 @@
 using Microsoft.AspNetCore.Mvc;
 using BestApp.Core.Entities;
 using BestApp.Core.Services;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BestApp.Web.Areas.Admin.Controllers;
 
 // Bu Controller'ın Admin bölgesine ait olduğunu belirtmek ZORUNLUDUR
 [Area("Admin")] 
+[Authorize]
 public class ApplicationController : Controller
 {
     private readonly IProjectService _projectService;

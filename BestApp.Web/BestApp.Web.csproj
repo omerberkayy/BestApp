@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <ItemGroup>
     <ProjectReference Include="..\BestApp.Service\BestApp.Service.csproj" />
@@ -16,6 +16,7 @@
     <TargetFramework>net10.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>8a18a962-20a0-40de-9c93-f8fd6cb8c899</UserSecretsId>
   </PropertyGroup>
 
 </Project>
