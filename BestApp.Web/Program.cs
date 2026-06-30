@@ -56,6 +56,46 @@ using (var scope = app.Services.CreateScope())
         });
         context.SaveChanges();
     }
+    // 2. HAKKIMIZDA VERİSİNİ YÜKLEME 
+    if (!context.Abouts.Any())
+    {
+        context.Abouts.Add(new BestApp.Core.Entities.About
+        {
+            Title = "Doğayı Yaşam Alanlarınıza Taşıyoruz",
+            Content = "Best Peyzaj olarak Adana ve çevresinde, estetik ve fonksiyonelliği bir araya getiren peyzaj projeleri üretiyoruz.",
+            ImageUrl = "https://images.unsplash.com/photo-1558904541-efa843a96f09?q=80&w=2000&auto=format&fit=crop"
+        });
+        context.SaveChanges();
+    }
+
+    // 3. HİZMETLER VERİSİNİ YÜKLEME 
+    if (!context.Services.Any())
+    {
+        context.Services.AddRange(
+            new BestApp.Core.Entities.Service
+            {
+                Title = "Peyzaj Tasarımı",
+                Description = "Villalar, siteler ve ticari alanlar için 3D modelleme destekli profesyonel peyzaj proje çizimleri ve tasarımları.",
+                IconClass = "bi-palette", // Bootstrap icon
+                IsActive = true
+            },
+            new BestApp.Core.Entities.Service
+            {
+                Title = "Bahçe Bakımı & Düzenleme",
+                Description = "Mevcut bahçelerinizin periyodik bakımı, çim biçme, gübreleme, ilaçlama ve budama hizmetleri.",
+                IconClass = "bi-scissors",
+                IsActive = true
+            },
+            new BestApp.Core.Entities.Service
+            {
+                Title = "Otomatik Sulama Sistemleri",
+                Description = "Su tasarrufu sağlayan, bahçenizin ihtiyacına uygun akıllı damlama ve fıskiye sulama sistemleri kurulumu.",
+                IconClass = "bi-droplet-fill",
+                IsActive = true
+            }
+        );
+        context.SaveChanges();
+    }
 }
 
 // Configure the HTTP request pipeline.

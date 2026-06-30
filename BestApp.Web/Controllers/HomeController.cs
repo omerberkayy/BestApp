@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using BestApp.Core.Entities;
 using BestApp.Core.Services;
 using BestApp.Web.Models;
 
@@ -6,44 +7,60 @@ namespace BestApp.Web.Controllers;
 
 public class HomeController : Controller
 {
-    // Service katmanındaki arayüzlerimizi (Interface) tanımlıyoruz
-    private readonly IProjectService _projectService;
-    private readonly IService<Core.Entities.Service> _serviceManager; // Kendi Service entity'miz ile karışmaması için tam yol verdik
+    private readonly IService<Project> _projectService;
+    private readonly IService<About> _aboutService;
+    private readonly IService<Core.Entities.Service> _serviceService;
+    private readonly IService<ContactMessage> _contactMessageService;
 
-    // Dependency Injection (DI) ile servisleri Controller'a enjekte ediyoruz
-    public HomeController(IProjectService projectService, IService<Core.Entities.Service> serviceManager)
+    // Tüm servisleri Constructor (Yapıcı Metot) üzerinden içeri alıyoruz
+    public HomeController(
+        IService<Project> projectService,
+        IService<About> aboutService,
+        IService<Core.Entities.Service> serviceService,
+        IService<ContactMessage> contactMessageService)
     {
         _projectService = projectService;
-        _serviceManager = serviceManager;
+        _aboutService = aboutService;
+        _serviceService = serviceService;
+        _contactMessageService = contactMessageService;
     }
 
     public async Task<IActionResult> Index()
     {
-        // 1. Sadece aktif (yayında olan) peyzaj uygulamalarını Service katmanından çekiyoruz
-        var activeProjects = await _projectService.GetActiveProjectsAsync();
+        var abouts = await _aboutService.GetAllAsync();
+        var services = await _serviceService.GetWhereAsync(x => x.IsActive);
+        var projects = await _projectService.GetWhereAsync(x => x.IsActive);
 
-        // 2. Sistemdeki aktif hizmetleri çekiyoruz (Burada generic getwhere metodunu kullanıyoruz)
-        var activeServices = await _serviceManager.GetWhereAsync(s => s.IsActive == true);
-
-        // 3. Verileri ViewModel'e dolduruyoruz
         var viewModel = new HomeViewModel
         {
-            Projects = activeProjects,
-            Services = activeServices
+            AboutInfo = abouts.FirstOrDefault(), // İlk kaydı Hakkımızda olarak al
+            Services = services.ToList(),
+            Projects = projects.OrderByDescending(x => x.Id).ToList()
         };
 
-        // 4. Dolu paketi (viewModel) View'a gönderiyoruz
         return View(viewModel);
     }
 
-    // Hakkımızda ve İletişim gibi diğer statik/yarı-dinamik sayfalar için metotlar:
-    public IActionResult About()
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> SendMessage(HomeViewModel model)
     {
-        return View();
-    }
-
-    public IActionResult Contact()
-    {
-        return View();
+        var message = model.ContactForm;
+        
+        if (ModelState.IsValid)
+        {
+            message.SentDate = DateTime.UtcNow;
+            message.IsRead = false;
+            
+            await _contactMessageService.AddAsync(message);
+            TempData["SuccessMessage"] = "Mesajınız başarıyla iletildi. En kısa sürede size dönüş yapacağız.";
+        }
+        else
+        {
+            TempData["ErrorMessage"] = "Lütfen tüm alanları eksiksiz doldurun.";
+        }
+        
+        // Form gönderildikten sonra sayfanın direkt "İletişim" bölümüne kayarak açılmasını sağlar
+        return RedirectToAction(nameof(Index), "Home", null, "iletisim"); 
     }
 }

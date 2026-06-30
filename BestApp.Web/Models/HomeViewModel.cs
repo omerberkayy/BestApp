@@ -1,11 +1,13 @@
 using BestApp.Core.Entities;
-using EntityService = BestApp.Core.Entities.Service;
 
 namespace BestApp.Web.Models;
 
 public class HomeViewModel
 {
-    // Ana sayfada hem projeleri hem de hizmetleri göstermek için listeler tanımlıyoruz
+    public About? AboutInfo { get; set; }
+    public IEnumerable<Core.Entities.Service> Services { get; set; } = new List<Core.Entities.Service>();
     public IEnumerable<Project> Projects { get; set; } = new List<Project>();
-    public IEnumerable<EntityService> Services { get; set; } = new List<EntityService>();
+    
+    // İletişim formu için boş bir nesne
+    public ContactMessage ContactForm { get; set; } = new ContactMessage(); 
 }
